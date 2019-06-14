@@ -1,13 +1,13 @@
 .PHONY: clean
 
 build:
-	CGO_ENABLED=0 GOOS=linux go build -o kube-operators
+	CGO_ENABLED=0 GOOS=linux go build -o kube-operator
 
 image: build
-	docker build -t kube-operators .
+	docker build -t kube-operator .
 
 push: image
 docker push kube-operators:latest
 
 clean:
-	rm -rf kube-operators
+	rm -rf kube-operator
