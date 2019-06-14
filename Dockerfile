@@ -1,4 +1,4 @@
 FROM scratch
-ADD kube-operators /
+ADD kube-operator /
 CMD ["/kube-operator"]
 
