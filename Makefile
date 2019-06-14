@@ -1,13 +1,20 @@
-.PHONY: clean
+.PHONY: build
+
+REPO  = docker.io/azenakhi
+IMAGE = kube-operator
+TAG   = latest
 
 build:
-	@CGO_ENABLED=0 GOOS=linux go build -o kube-operator
+	@go build -o ./build/kube-operator -i cmd/main.go
 
-image: build
-	@docker build -t kube-operator .
+login:
+	@docker login
 
-push: image
-	@docker push kube-operators:latest
+image: 
+	@docker build -t ${REPO}/${IMAGE}:${TAG} .
+
+push:
+	@docker push ${REPO}/${IMAGE}:${TAG}
 
 clean:
-	@rm -rf kube-operator
+	@rm -rf build/kube-operator

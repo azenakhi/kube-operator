@@ -10,7 +10,7 @@ import (
 )
 
 func main() {
-	kubeconfig := flag.String("kubeconfig", "/home/zenakhi_a/.kube/config-admin", "absolute path to the kubeconfig file")
+	kubeconfig := flag.String("kubeconfig", "/Users/azenakhi/.kube/config", "absolute path to the kubeconfig file")
 	flag.Parse()
 	config, err := clientcmd.BuildConfigFromFlags("", *kubeconfig)
 	if err != nil {
