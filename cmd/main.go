@@ -1,31 +1,22 @@
 package main
 
 import (
-	"flag"
-	"fmt"
+	"os"
 
-	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	"k8s.io/client-go/kubernetes"
-	"k8s.io/client-go/tools/clientcmd"
+	"github.com/azenakhi/kube-operator/internal/services"
+	"github.com/azenakhi/kube-operator/internal/utils"
 )
 
 func main() {
-	kubeconfig := flag.String("kubeconfig", "/Users/azenakhi/.kube/config", "absolute path to the kubeconfig file")
-	flag.Parse()
-	config, err := clientcmd.BuildConfigFromFlags("", *kubeconfig)
+	kubeconfig, err := utils.GetClientConfig()
+	if err != nil {
+		utils.Log.Error().Msgf("Couldn't load K8S client config:", err)
+		os.Exit(1)
+	}
+
+	managePods, err := services.NewManagePods(kubeconfig)
 	if err != nil {
 		panic(err.Error())
 	}
-	clientset, err := kubernetes.NewForConfig(config)
-	if err != nil {
-		panic(err.Error())
-	}
-	api := clientset.CoreV1()
-	pods, err := api.Pods("").List(v1.ListOptions{})
-	if err != nil {
-		panic(err.Error())
-	}
-	for _, pod := range pods.Items {
-		fmt.Printf("%s \n", pod.GetName())
-	}
+	managePods.ListPod()
 }

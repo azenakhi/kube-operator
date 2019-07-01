@@ -1,7 +1,0 @@
-apiVersion: azenakhi.github.com/v1
-kind: KubeOperator
-metadata:
-  name: kubeoperator
-spec:
-  name: ahmed
-  age: 42
